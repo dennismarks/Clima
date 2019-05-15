@@ -5,36 +5,26 @@
 
 
 import UIKit
-
-// framework that allows us to use GPS
 import CoreLocation
-
 import Alamofire
 import SwiftyJSON
 
-// need to inherit from CLLocationManagerDelegate
 class WeatherViewController: UIViewController, CLLocationManagerDelegate, ChangeCityDelegate {
     
-    // Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
     let APP_ID = "6be27ba9cc250490f7b3cfecfd088343"
-
-    // TODO: Declare instance variables here
     let locationManager = CLLocationManager()
     let weatherDataModel = WeatherDataModel()
     
-    // Pre-linked IBOutlets
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherDescription: UILabel!
     
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO : Set up the location manager here; helps us to get GPS location
+        // set up the location manager here; helps us to get GPS location
         locationManager.delegate = self
         
         // choose the range of the GPS location
@@ -55,7 +45,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     
     func getWheatherData(url : String, parameters : [String:String]) {
         /*
-         use Alamofire to make an HTTP request;
+         use Alarmofire to make an HTTP request;
          url - the address of the data server that we want to access;
          method - what type of request we want to make;
          parameters - parameters for Weather url;
