@@ -72,7 +72,7 @@ class ViewController: UIViewController {
     
     
     func updateUI(weather: Weather) {
-        
+        self.label.text = weather.name
     }
     
 }
