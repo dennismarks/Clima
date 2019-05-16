@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Network
 
 class ViewController: UIViewController {
     
@@ -60,7 +59,6 @@ class ViewController: UIViewController {
             }.resume()
     }
     
-    
     func parseJsonData(with data: Data) {
         do {
             let weather = try JSONDecoder().decode(Weather.self, from: data)
@@ -74,7 +72,7 @@ class ViewController: UIViewController {
     
     
     func updateUI(weather: Weather) {
-        self.label.text = weather.name
+        
     }
     
 }
