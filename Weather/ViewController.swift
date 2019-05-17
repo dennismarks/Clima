@@ -94,6 +94,37 @@ class ViewController: UIViewController {
             print("Error reading JSON:", err)
         }
     }
+    
+    
+    func updateLocationBasedUI(weather: WeatherData, coordinates: Coordinates) {
+        
+        let locationForTimeZone = CLLocation(latitude: coordinates.lat, longitude: coordinates.lon)
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(locationForTimeZone) { (placemarks, err) in
+            guard let placemark = placemarks?[0] else { return }
+            
+            if let timeZoneToUse = placemark.timeZone {
+                
+                self.sunriseLabel.text = self.formatTime(time: Double(weather.sys.sunrise), timeZone: timeZoneToUse)
+                self.sunsetLabel.text = self.formatTime(time: Double(weather.sys.sunset), timeZone: timeZoneToUse)
+                
+            }
+        }
+        
+        let wind = weather.wind
+        windSpeedLabel.text = "\(wind.speed) m/s"
+        
+        
+        // get the current date and time
+        let currentDateTime = Date()
+        // initialize the date formatter and set the style
+        let formatter3 = DateFormatter()
+        formatter3.timeStyle = .short
+        formatter3.dateStyle = .none
+        // get the date time String from the date object
+        let data = formatter3.string(from: currentDateTime)
+        timeLabel.text = data
+    }
 
     
     func formatTime(time: Double, timeZone: TimeZone) -> String {
