@@ -28,13 +28,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     
+    
     let gradientLayer = CAGradientLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         searchBar.delegate = self
+//        searchBar.barStyle = .blackOpaque
         searchBar.searchBarStyle = .minimal
-
+//        searchBar.isTranslucent = true
+        
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
         
         guard var urlComponents = URLComponents(string: urlString) else { return }
@@ -96,6 +100,30 @@ class ViewController: UIViewController {
     }
     
     
+    func updateUI(weather: WeatherData) {
+        let main = weather.main
+        let weatherDes = weather.weather[0]
+        let coord = weather.coord
+        tempLabel.text = String(Int(main.temp))
+        cityLabel.text = weather.name.uppercased()
+        weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
+        descriptionLabel.text = String(weatherDes.weatherDescription)
+        updateLocationBasedUI(weather: weather, coordinates: coord)
+    }
+    
+    
+    func formatTime(time: Double, timeZone: TimeZone) -> String {
+        let unixTime = NSDate(timeIntervalSince1970: time)
+        let formatter = DateFormatter()
+        formatter.timeZone = timeZone
+//        formatter.dateFormat = "HH:mm"
+        formatter.timeStyle = .short
+        formatter.dateStyle = .none
+        let dateString = formatter.string(from: unixTime as Date)
+        return dateString
+    }
+    
+    
     func updateLocationBasedUI(weather: WeatherData, coordinates: Coordinates) {
         
         let locationForTimeZone = CLLocation(latitude: coordinates.lat, longitude: coordinates.lon)
@@ -105,9 +133,11 @@ class ViewController: UIViewController {
             
             if let timeZoneToUse = placemark.timeZone {
                 
+                
                 self.sunriseLabel.text = self.formatTime(time: Double(weather.sys.sunrise), timeZone: timeZoneToUse)
                 self.sunsetLabel.text = self.formatTime(time: Double(weather.sys.sunset), timeZone: timeZoneToUse)
-                
+    
+
             }
         }
         
@@ -125,32 +155,52 @@ class ViewController: UIViewController {
         let data = formatter3.string(from: currentDateTime)
         timeLabel.text = data
     }
-
     
-    func formatTime(time: Double, timeZone: TimeZone) -> String {
-        let unixTime = NSDate(timeIntervalSince1970: time)
-        let formatter = DateFormatter()
-        formatter.timeZone = timeZone
-        formatter.timeStyle = .short
-        formatter.dateStyle = .none
-        let dateString = formatter.string(from: unixTime as Date)
-        return dateString
-    }
-    
-    
-    func updateUI(weather: WeatherData) {
-        let main = weather.main
-        let weatherDes = weather.weather[0]
-        let coord = weather.coord
-        tempLabel.text = String(Int(main.temp))
-        cityLabel.text = weather.name.uppercased()
-        weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
-        descriptionLabel.text = String(weatherDes.weatherDescription)
-        updateLocationBasedUI(weather: weather, coordinates: coord)
-    }
-
 }
 
+
+extension ViewController: UISearchBarDelegate {
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        guard var urlComponents = URLComponents(string: urlString) else { return }
+        urlComponents.queryItems = [
+            URLQueryItem(name: "q", value: searchBar.text!),
+            URLQueryItem(name: "units", value: "metric"),
+            URLQueryItem(name: "appid", value: apiKey)
+        ]
+        guard let url = urlComponents.url else { return }
+        getWeatherData(for: url)
+        searchBar.resignFirstResponder()
+        searchBar.text! = ""
+        searchBarCancelButtonClicked(searchBar)
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        UIView.transition(with: view, duration: 0.8, options: .transitionCrossDissolve, animations: {
+            self.searchBar.isHidden = true
+            self.searchBar.resignFirstResponder()
+            self.searchButton.isHidden = false
+            self.timeLabel.isHidden = false
+            self.cityLabel.isHidden = false
+            self.descriptionLabel.isHidden = false
+        })
+    }
+    
+    @IBAction func searchButtonClicked(_ sender: Any) {
+        UIView.transition(with: view, duration: 0.8, options: .transitionCrossDissolve, animations: {
+            self.searchButton.isHidden = true
+            self.timeLabel.isHidden = true
+            self.cityLabel.isHidden = true
+            self.descriptionLabel.isHidden = true
+            self.searchBar.isHidden = false
+            self.searchBar.becomeFirstResponder()
+        })
+    }
+    
+}
 
 extension ViewController {
     

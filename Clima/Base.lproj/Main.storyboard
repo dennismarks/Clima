@@ -183,7 +183,6 @@
                                     <userDefinedRuntimeAttribute type="color" keyPath="searchField.textColor">
                                         <color key="value" red="0.57254901960000004" green="0.82745098039999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </searchBar>
                         </subviews>
