@@ -95,4 +95,36 @@ class ViewController: UIViewController {
         }
     }
 
+    
+    func formatTime(time: Double, timeZone: TimeZone) -> String {
+        let unixTime = NSDate(timeIntervalSince1970: time)
+        let formatter = DateFormatter()
+        formatter.timeZone = timeZone
+        formatter.timeStyle = .short
+        formatter.dateStyle = .none
+        let dateString = formatter.string(from: unixTime as Date)
+        return dateString
+    }
+    
+    
+    func updateUI(weather: WeatherData) {
+        let main = weather.main
+        let weatherDes = weather.weather[0]
+        let coord = weather.coord
+        tempLabel.text = String(Int(main.temp))
+        cityLabel.text = weather.name.uppercased()
+        weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
+        descriptionLabel.text = String(weatherDes.weatherDescription)
+        updateLocationBasedUI(weather: weather, coordinates: coord)
+    }
+
+}
+
+
+extension ViewController {
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
 }
