@@ -28,16 +28,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    
     let gradientLayer = CAGradientLayer()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
-//        searchBar.barStyle = .blackOpaque
         searchBar.searchBarStyle = .minimal
-//        searchBar.isTranslucent = true
         
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
         
@@ -53,6 +51,7 @@ class ViewController: UIViewController {
         
         getWeatherData(for: url)
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         let topColour = UIColor(red: 22/255.0, green: 38/255.0, blue: 52/255.0, alpha: 1.0).cgColor
@@ -116,7 +115,6 @@ class ViewController: UIViewController {
         let unixTime = NSDate(timeIntervalSince1970: time)
         let formatter = DateFormatter()
         formatter.timeZone = timeZone
-//        formatter.dateFormat = "HH:mm"
         formatter.timeStyle = .short
         formatter.dateStyle = .none
         let dateString = formatter.string(from: unixTime as Date)
@@ -130,37 +128,31 @@ class ViewController: UIViewController {
         let geoCoder = CLGeocoder()
         geoCoder.reverseGeocodeLocation(locationForTimeZone) { (placemarks, err) in
             guard let placemark = placemarks?[0] else { return }
-            
             if let timeZoneToUse = placemark.timeZone {
                 
-                
+                // sunrise and sunset labels
                 self.sunriseLabel.text = self.formatTime(time: Double(weather.sys.sunrise), timeZone: timeZoneToUse)
                 self.sunsetLabel.text = self.formatTime(time: Double(weather.sys.sunset), timeZone: timeZoneToUse)
-    
-
+                
+                // time label
+                let timezone = TimeZone.init(identifier: timeZoneToUse.identifier)
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .none
+                dateFormatter.timeStyle = .short
+                dateFormatter.timeZone = timezone
+                self.timeLabel.text = dateFormatter.string(from: Date())
+                
+                // wind label
+                let wind = weather.wind
+                self.windSpeedLabel.text = "\(wind.speed) m/s"
             }
         }
-        
-        let wind = weather.wind
-        windSpeedLabel.text = "\(wind.speed) m/s"
-        
-        
-        // get the current date and time
-        let currentDateTime = Date()
-        // initialize the date formatter and set the style
-        let formatter3 = DateFormatter()
-        formatter3.timeStyle = .short
-        formatter3.dateStyle = .none
-        // get the date time String from the date object
-        let data = formatter3.string(from: currentDateTime)
-        timeLabel.text = data
     }
     
 }
 
 
 extension ViewController: UISearchBarDelegate {
-    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
