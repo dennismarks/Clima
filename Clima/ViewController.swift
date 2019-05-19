@@ -71,7 +71,8 @@ class ViewController: UIViewController {
             // check if the HTTP status code is OK
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
-                    print("HTTP code error.)")
+                    // TODO: - give user feedback
+                    print("HTTP code error)")
                     return
             }
             // check the MIME type of the response
@@ -103,7 +104,7 @@ class ViewController: UIViewController {
         let main = weather.main
         let weatherDes = weather.weather[0]
         let coord = weather.coord
-        tempLabel.text = String(Int(main.temp))
+        tempLabel.text = "\(Int(main.temp))"
         cityLabel.text = weather.name.uppercased()
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
         descriptionLabel.text = String(weatherDes.weatherDescription)

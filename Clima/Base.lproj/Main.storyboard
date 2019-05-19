@@ -13,12 +13,12 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Clima" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MQv-DY-8sW" customClass="WeatherInfoContainers" customModule="Weather" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MQv-DY-8sW" customClass="WeatherInfoContainers" customModule="Clima" customModuleProvider="target">
                                 <rect key="frame" x="56" y="331" width="263" height="150"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Z2-3s-daG">
@@ -68,7 +68,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BlD-nw-fEF">
                                 <rect key="frame" x="56" y="563" width="263" height="91"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQt-x7-Sz2" customClass="WeatherInfoContainers" customModule="Weather" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQt-x7-Sz2" customClass="WeatherInfoContainers" customModule="Clima" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="74" height="91"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05:05" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9db-Su-Ato">
@@ -80,7 +80,7 @@
                                                 <color key="textColor" red="0.68655608099999998" green="0.81780699700000004" blue="0.89516141319999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sunrise_night" translatesAutoresizingMaskIntoConstraints="NO" id="sRK-1Q-kNF">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sunrise_night" translatesAutoresizingMaskIntoConstraints="NO" id="sRK-1Q-kNF">
                                                 <rect key="frame" x="12" y="8" width="50" height="50"/>
                                             </imageView>
                                         </subviews>
@@ -95,7 +95,7 @@
                                             <constraint firstItem="sRK-1Q-kNF" firstAttribute="centerX" secondItem="9db-Su-Ato" secondAttribute="centerX" id="sdz-mh-ft4"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jYb-RI-gcK" customClass="WeatherInfoContainers" customModule="Weather" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jYb-RI-gcK" customClass="WeatherInfoContainers" customModule="Clima" customModuleProvider="target">
                                         <rect key="frame" x="94" y="0.0" width="75" height="91"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05:05" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbV-yc-mKg">
@@ -107,7 +107,7 @@
                                                 <color key="textColor" red="0.68655608099999998" green="0.81780699700000004" blue="0.89516141319999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sunset_night" translatesAutoresizingMaskIntoConstraints="NO" id="gh3-8g-rhz">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sunset_night" translatesAutoresizingMaskIntoConstraints="NO" id="gh3-8g-rhz">
                                                 <rect key="frame" x="12" y="8" width="51" height="50"/>
                                             </imageView>
                                         </subviews>
@@ -122,7 +122,7 @@
                                             <constraint firstItem="ZbV-yc-mKg" firstAttribute="top" secondItem="gh3-8g-rhz" secondAttribute="bottom" constant="4" id="xj9-TF-HY7"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xWm-Be-2Uq" customClass="WeatherInfoContainers" customModule="Weather" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xWm-Be-2Uq" customClass="WeatherInfoContainers" customModule="Clima" customModuleProvider="target">
                                         <rect key="frame" x="189" y="0.0" width="74" height="91"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 m/s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3o-fJ-QeM">
@@ -134,7 +134,7 @@
                                                 <color key="textColor" red="0.68655608099999998" green="0.81780699700000004" blue="0.89516141319999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wind_night" translatesAutoresizingMaskIntoConstraints="NO" id="fdc-7c-rLd">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wind_night" translatesAutoresizingMaskIntoConstraints="NO" id="fdc-7c-rLd">
                                                 <rect key="frame" x="15" y="12" width="45" height="45"/>
                                             </imageView>
                                         </subviews>
