@@ -23,6 +23,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var sunriseLabel: UILabel!
     @IBOutlet weak var sunsetLabel: UILabel!
     @IBOutlet weak var windSpeedLabel: UILabel!
+    @IBOutlet weak var maxTempLabel: UILabel!
+    @IBOutlet weak var minTempLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var searchButton: UIButton!
@@ -136,6 +138,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         cityLabel.text = weather.name.uppercased()
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
         descriptionLabel.text = String(weatherDes.weatherDescription)
+        maxTempLabel.text = "\(Int(floor(main.temp_max)))°C"
+        minTempLabel.text = "\(Int(floor(main.temp_min)))°C"
         updateLocationBasedUI(weather: weather, coordinates: coord)
     }
     

@@ -1,14 +1,4 @@
 //
-//  WeatherData.swift
-//  Weather
-//
-//  Created by Dennis M on 2019-05-15.
-//  Copyright © 2019 Dennis M. All rights reserved.
-//
-
-import Foundation
-
-//
 //  WeatherDataModel.swift
 //  Weather
 //
@@ -40,6 +30,8 @@ struct WeatherData: Decodable {
 
 struct WeatherContidons: Decodable {
     let temp: Double
+    let temp_min: Double
+    let temp_max: Double
 }
 
 struct Weather: Decodable {
@@ -71,26 +63,25 @@ func updateWeatherIcon(condition: Int) -> String {
         case 0...300 :
             return "lightning_night"
         case 301...500 :
-            return "rain_day"
+            return "rain_night"
         case 501...600 :
-            return "heavy_rain_day"
+            return "heavy_rain_night"
         case 601...700 :
-            return "snow_day"
+            return "snow_night"
         case 701...771 :
-            return "fog_day"
+            return "fog_night"
         case 772...799 :
-            return "lightning_day"
+            return "lightning_night"
         case 800 :
             return "sun_night"
         case 801...804 :
             return "cloud_night"
-//            return "cloudy_day"
         case 900...903, 905...1000  :
             return "lightning_night"
         case 903 :
-            return "snow_day"
+            return "snow_night"
         case 904 :
-            return "sun_day"
+            return "sun_night"
         default :
             return "error"
     }
