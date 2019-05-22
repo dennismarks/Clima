@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // Set up the HTTP request with URLSession
     let session = URLSession.shared
@@ -28,36 +28,53 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     
+    let locationManager = CLLocationManager()
     let gradientLayer = CAGradientLayer()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationManager.delegate = self
+        // choose the range of the GPS location
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        // ask for a permission; Xcode will go and look for a description in info.plist
+        locationManager.requestWhenInUseAuthorization()
+        // run in a background
+        locationManager.startUpdatingLocation()
+        
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         
-        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        
-        guard var urlComponents = URLComponents(string: urlString) else { return }
-        urlComponents.queryItems = [
-            URLQueryItem(name: "q", value: "Toronto"),
-            URLQueryItem(name: "units", value: "metric"),
-            URLQueryItem(name: "appid", value: apiKey)
-        ]
-        
-        // Make the request with URLSessionDataTask
-        guard let url = urlComponents.url else { return }
-        
-        getWeatherData(for: url)
+        cityLabel.adjustsFontSizeToFitWidth = true
+        cityLabel.minimumScaleFactor = 0.2
     }
     
+//    func dayTimeBackground() {
+//        let topColour = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0).cgColor
+//        let bottomColour = UIColor(red: 145/255.0, green: 188/255.0, blue: 204/255.0, alpha: 1.0).cgColor
+//        gradientLayer.frame = view.bounds
+//        gradientLayer.colors = [topColour, bottomColour]
+//        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+//    }
     
-    override func viewWillAppear(_ animated: Bool) {
+    
+    func nightTimeBackground() {
+        
         let topColour = UIColor(red: 22/255.0, green: 38/255.0, blue: 52/255.0, alpha: 1.0).cgColor
         let bottomColour = UIColor(red: 9/255.0, green: 16/255.0, blue: 21/255.0, alpha: 1.0).cgColor
+        
+//        let topColour = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+//        let bottomColour = UIColor(red: 32/255.0, green: 48/255.0, blue: 62/255.0, alpha: 1.0).cgColor
+        
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [topColour, bottomColour]
+        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+//        dayTimeBackground()
+        nightTimeBackground()
     }
     
     
@@ -100,6 +117,17 @@ class ViewController: UIViewController {
     }
     
     
+    func formatTime(time: Double, timeZone: TimeZone) -> String {
+        let unixTime = NSDate(timeIntervalSince1970: time)
+        let formatter = DateFormatter()
+        formatter.timeZone = timeZone
+        formatter.timeStyle = .short
+        formatter.dateStyle = .none
+        let dateString = formatter.string(from: unixTime as Date)
+        return dateString
+    }
+    
+    
     func updateUI(weather: WeatherData) {
         let main = weather.main
         let weatherDes = weather.weather[0]
@@ -109,17 +137,6 @@ class ViewController: UIViewController {
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
         descriptionLabel.text = String(weatherDes.weatherDescription)
         updateLocationBasedUI(weather: weather, coordinates: coord)
-    }
-    
-    
-    func formatTime(time: Double, timeZone: TimeZone) -> String {
-        let unixTime = NSDate(timeIntervalSince1970: time)
-        let formatter = DateFormatter()
-        formatter.timeZone = timeZone
-        formatter.timeStyle = .short
-        formatter.dateStyle = .none
-        let dateString = formatter.string(from: unixTime as Date)
-        return dateString
     }
     
     
@@ -148,6 +165,32 @@ class ViewController: UIViewController {
                 self.windSpeedLabel.text = "\(wind.speed) m/s"
             }
         }
+    }
+    
+}
+
+
+extension ViewController {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations[locations.count - 1]
+        if location.horizontalAccuracy > 0 {
+            locationManager.stopUpdatingLocation()
+            locationManager.delegate = nil
+        }
+
+        let latitude = String(location.coordinate.latitude)
+        let longtitude = String(location.coordinate.longitude)
+        
+        guard var urlComponents = URLComponents(string: urlString) else { return }
+        urlComponents.queryItems = [
+            URLQueryItem(name: "lat", value: latitude),
+            URLQueryItem(name: "lon", value: longtitude),
+            URLQueryItem(name: "units", value: "metric"),
+            URLQueryItem(name: "appid", value: apiKey)
+        ]
+        guard let url = urlComponents.url else { return }
+        getWeatherData(for: url)
     }
     
 }
