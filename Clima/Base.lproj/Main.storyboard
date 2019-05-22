@@ -133,8 +133,8 @@
                                                 <color key="textColor" red="0.68655608099999998" green="0.81780699700000004" blue="0.89516141319999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wind_night" translatesAutoresizingMaskIntoConstraints="NO" id="fdc-7c-rLd">
-                                                <rect key="frame" x="15" y="12" width="45" height="45"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wind_night" translatesAutoresizingMaskIntoConstraints="NO" id="fdc-7c-rLd">
+                                                <rect key="frame" x="15" y="12" width="44" height="45"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.68627450980000004" green="0.81960784310000001" blue="0.89411764709999997" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="displayP3"/>
@@ -188,7 +188,7 @@
                                 <rect key="frame" x="56" y="563" width="76" height="91"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="high-temperature" translatesAutoresizingMaskIntoConstraints="NO" id="Bdw-QF-Sqp">
-                                        <rect key="frame" x="12" y="8" width="50" height="50"/>
+                                        <rect key="frame" x="12" y="8" width="50" height="45"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkv-2F-sRk">
                                         <rect key="frame" x="0.0" y="66" width="74" height="21"/>
@@ -215,7 +215,7 @@
                                 <rect key="frame" x="150" y="563" width="74" height="91"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="low-temperature" translatesAutoresizingMaskIntoConstraints="NO" id="Bzl-29-c6b">
-                                        <rect key="frame" x="12" y="8" width="50" height="50"/>
+                                        <rect key="frame" x="12" y="8" width="50" height="45"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5il-0x-78i">
                                         <rect key="frame" x="0.0" y="66" width="74" height="21"/>
@@ -238,6 +238,45 @@
                                     <constraint firstAttribute="trailing" secondItem="5il-0x-78i" secondAttribute="trailing" id="dWM-eW-zGx"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gIo-RK-jSQ" customClass="WeatherInfoContainers" customModule="Clima" customModuleProvider="target">
+                                <rect key="frame" x="245" y="563" width="75" height="100"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="humidity" translatesAutoresizingMaskIntoConstraints="NO" id="bOc-Nu-dkK">
+                                        <rect key="frame" x="12" y="23" width="50" height="45"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUs-3D-eAw">
+                                        <rect key="frame" x="0.0" y="76" width="75" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="xux-Xh-NOn"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.68655608099999998" green="0.81780699700000004" blue="0.89516141319999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Humidity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ub5-Zu-HCj">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="1Uw-ag-6YW"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="0.64705882349999999" green="0.81568627449999997" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.68627450980000004" green="0.81960784310000001" blue="0.89411764709999997" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="ub5-Zu-HCj" firstAttribute="leading" secondItem="zUs-3D-eAw" secondAttribute="leading" id="1kx-X2-Fg4"/>
+                                    <constraint firstAttribute="bottom" secondItem="zUs-3D-eAw" secondAttribute="bottom" constant="3" id="307-x7-lBF"/>
+                                    <constraint firstItem="bOc-Nu-dkK" firstAttribute="leading" secondItem="gIo-RK-jSQ" secondAttribute="leading" constant="12" id="91a-97-KrQ"/>
+                                    <constraint firstItem="zUs-3D-eAw" firstAttribute="top" secondItem="bOc-Nu-dkK" secondAttribute="bottom" constant="8" symbolic="YES" id="JJ2-15-KyU"/>
+                                    <constraint firstItem="ub5-Zu-HCj" firstAttribute="trailing" secondItem="zUs-3D-eAw" secondAttribute="trailing" id="Nrn-XA-DB2"/>
+                                    <constraint firstItem="ub5-Zu-HCj" firstAttribute="centerX" secondItem="bOc-Nu-dkK" secondAttribute="centerX" id="QQQ-88-nJN"/>
+                                    <constraint firstItem="bOc-Nu-dkK" firstAttribute="top" secondItem="ub5-Zu-HCj" secondAttribute="bottom" constant="2" id="TLv-4H-ciQ"/>
+                                    <constraint firstItem="ub5-Zu-HCj" firstAttribute="leading" secondItem="gIo-RK-jSQ" secondAttribute="leading" id="mmo-J8-aSF"/>
+                                    <constraint firstItem="ub5-Zu-HCj" firstAttribute="top" secondItem="gIo-RK-jSQ" secondAttribute="top" id="tc1-V0-IFX"/>
+                                    <constraint firstAttribute="trailing" secondItem="ub5-Zu-HCj" secondAttribute="trailing" id="wTH-Fn-MDH"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.058981887529999999" green="0.1000957308" blue="0.13582366000000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
@@ -249,11 +288,13 @@
                             <constraint firstItem="EYd-tL-v8H" firstAttribute="top" secondItem="wnG-O8-ft7" secondAttribute="bottom" constant="56" id="8QT-yJ-nAy"/>
                             <constraint firstItem="rdC-Wu-5eh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="299" id="BQJ-A6-WRI"/>
                             <constraint firstItem="rdC-Wu-5eh" firstAttribute="trailing" secondItem="MQv-DY-8sW" secondAttribute="trailing" id="C6u-kP-BNw"/>
+                            <constraint firstItem="gIo-RK-jSQ" firstAttribute="leading" secondItem="5vY-jQ-lre" secondAttribute="trailing" constant="21" id="FbD-q6-pLQ"/>
                             <constraint firstItem="wnG-O8-ft7" firstAttribute="centerX" secondItem="T5E-Hi-CP4" secondAttribute="centerX" id="HXR-mh-Piq"/>
                             <constraint firstItem="BlD-nw-fEF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="56" id="IJw-Mp-FxW"/>
                             <constraint firstItem="5vY-jQ-lre" firstAttribute="centerX" secondItem="BlD-nw-fEF" secondAttribute="centerX" id="IaW-aA-R97"/>
                             <constraint firstItem="5QB-hO-ER9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="24" id="IkX-se-fge"/>
                             <constraint firstItem="5QB-hO-ER9" firstAttribute="trailing" secondItem="T5E-Hi-CP4" secondAttribute="trailing" id="Lrs-yX-k9x"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gIo-RK-jSQ" secondAttribute="trailing" constant="55" id="Luw-VT-BOL"/>
                             <constraint firstItem="wnG-O8-ft7" firstAttribute="top" secondItem="5QB-hO-ER9" secondAttribute="bottom" constant="26" id="MBJ-uI-9tw"/>
                             <constraint firstItem="EYd-tL-v8H" firstAttribute="top" secondItem="T5E-Hi-CP4" secondAttribute="bottom" constant="25" id="MXh-zz-buo"/>
                             <constraint firstItem="EYd-tL-v8H" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="95" id="NJv-0d-Q5U"/>
@@ -263,9 +304,11 @@
                             <constraint firstItem="MQv-DY-8sW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="56" id="VDt-fV-BmN"/>
                             <constraint firstItem="MQv-DY-8sW" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Y8W-eQ-mcv"/>
                             <constraint firstItem="BlD-nw-fEF" firstAttribute="centerX" secondItem="T5E-Hi-CP4" secondAttribute="centerX" id="Z6Z-cu-VdV"/>
+                            <constraint firstItem="gIo-RK-jSQ" firstAttribute="top" secondItem="5vY-jQ-lre" secondAttribute="top" id="Zsp-d1-PjG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="BlD-nw-fEF" secondAttribute="bottom" constant="124" id="akN-jb-iy6"/>
                             <constraint firstItem="iav-nT-cyC" firstAttribute="leading" secondItem="BlD-nw-fEF" secondAttribute="leading" id="avu-9i-KnA"/>
                             <constraint firstItem="BlD-nw-fEF" firstAttribute="centerX" secondItem="EYd-tL-v8H" secondAttribute="centerX" id="d18-Xg-1Um"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gIo-RK-jSQ" secondAttribute="bottom" constant="4" id="fBM-5E-5vE"/>
                             <constraint firstItem="T5E-Hi-CP4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="103" id="kGL-4r-vC5"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5vY-jQ-lre" secondAttribute="trailing" constant="151" id="mdS-S2-AV3"/>
                             <constraint firstItem="5QB-hO-ER9" firstAttribute="centerY" secondItem="rdC-Wu-5eh" secondAttribute="centerY" id="mmO-7W-byM"/>
@@ -281,6 +324,7 @@
                         <outlet property="backgroundView" destination="8bC-Xf-vdC" id="cXf-ye-aM7"/>
                         <outlet property="cityLabel" destination="T5E-Hi-CP4" id="gwH-xY-R7t"/>
                         <outlet property="descriptionLabel" destination="EYd-tL-v8H" id="rpX-5S-Z1R"/>
+                        <outlet property="humidityLabel" destination="zUs-3D-eAw" id="goc-nf-fNV"/>
                         <outlet property="maxTempLabel" destination="Xkv-2F-sRk" id="xtT-7h-aDk"/>
                         <outlet property="minTempLabel" destination="5il-0x-78i" id="SGn-Dc-Gpz"/>
                         <outlet property="searchBar" destination="wnG-O8-ft7" id="WSJ-x8-gWV"/>
@@ -300,6 +344,7 @@
     </scenes>
     <resources>
         <image name="high-temperature" width="128" height="128"/>
+        <image name="humidity" width="128" height="128"/>
         <image name="low-temperature" width="128" height="128"/>
         <image name="magnifying-glass" width="128" height="128"/>
         <image name="sunrise_night" width="128" height="128"/>

@@ -30,6 +30,7 @@ struct WeatherData: Decodable {
 
 struct WeatherContidons: Decodable {
     let temp: Double
+    let humidity: Double
     let temp_min: Double
     let temp_max: Double
 }

@@ -25,6 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var searchButton: UIButton!
@@ -140,6 +141,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         descriptionLabel.text = String(weatherDes.weatherDescription)
         maxTempLabel.text = "\(Int(floor(main.temp_max)))°C"
         minTempLabel.text = "\(Int(floor(main.temp_min)))°C"
+        humidityLabel.text = "\(Int(floor(main.humidity)))%"
         updateLocationBasedUI(weather: weather, coordinates: coord)
     }
     
