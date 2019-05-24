@@ -59,32 +59,62 @@ struct Coordinates: Decodable {
     let lat: Double
 }
 
+
 func updateWeatherIcon(condition: Int) -> String {
-    switch (condition) {
-        case 0...300 :
-            return "lightning_night"
-        case 301...500 :
-            return "rain_night"
-        case 501...600 :
-            return "heavy_rain_night"
-        case 601...700 :
-            return "snow_night"
-        case 701...771 :
-            return "fog_night"
-        case 772...799 :
-            return "lightning_night"
-        case 800 :
-            return "sun_night"
-        case 801...804 :
-            return "cloud_day"
-        case 900...903, 905...1000  :
-            return "lightning_night"
-        case 903 :
-            return "snow_night"
-        case 904 :
-            return "sun_night"
-        default :
-            return "error"
+        
+    if ViewController.dayTime {
+        switch (condition) {
+            case 0...300 :
+                return "lightning_day"
+            case 301...500 :
+                return "rain_day"
+            case 501...600 :
+                return "heavy_rain_day"
+            case 601...700 :
+                return "snow_day"
+            case 701...771 :
+                return "fog_day"
+            case 772...799 :
+                return "lightning_day"
+            case 800 :
+                return "sun_day"
+            case 801...804 :
+                return "cloud_day"
+            case 900...903, 905...1000  :
+                return "lightning_day"
+            case 903 :
+                return "snow_day"
+            case 904 :
+                return "sun_day"
+            default :
+                return "error"
+        }
+    } else {
+        switch (condition) {
+            case 0...300 :
+                return "lightning_night"
+            case 301...500 :
+                return "rain_night"
+            case 501...600 :
+                return "heavy_rain_night"
+            case 601...700 :
+                return "snow_night"
+            case 701...771 :
+                return "fog_night"
+            case 772...799 :
+                return "lightning_night"
+            case 800 :
+                return "sun_night"
+            case 801...804 :
+                return "cloud_night"
+            case 900...903, 905...1000  :
+                return "lightning_night"
+            case 903 :
+                return "snow_night"
+            case 904 :
+                return "sun_night"
+            default :
+                return "error"
+        }
     }
-    
 }

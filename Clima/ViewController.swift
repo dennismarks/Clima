@@ -15,8 +15,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let session = URLSession.shared
     let apiKey = "6be27ba9cc250490f7b3cfecfd088343"
     let urlString = "https://api.openweathermap.org/data/2.5/weather/"
+    static var dayTime = false
+
     
-    @IBOutlet weak var weatherIcon: UIImageView!
+    @IBOutlet var backgroundView: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
+
+    // Labels
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -26,13 +31,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet var backgroundView: UIView!
-    @IBOutlet weak var searchButton: UIButton!
-    @IBOutlet weak var searchBar: UISearchBar!
+    
+    // Images
+    @IBOutlet weak var weatherIcon: UIImageView!
+    @IBOutlet weak var sunriseImage: UIImageView!
+    @IBOutlet weak var sunsetImage: UIImageView!
+    @IBOutlet weak var windImage: UIImageView!
+    @IBOutlet weak var maxTempImage: UIImageView!
+    @IBOutlet weak var minTempImage: UIImageView!
+    @IBOutlet weak var humidityImage: UIImageView!
+    
     
     let locationManager = CLLocationManager()
     let gradientLayer = CAGradientLayer()
+    var weatherCond : Int = 0
 //    let containersView = WeatherInfoContainers()
     
     
@@ -59,8 +71,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        nightTimeBackground()
-//        dayTimeBackground()
+//        nightTimeBackground()
+        dayTimeBackground()
         super.viewWillAppear(animated)
         self.navigationItem.title = "99:99 PM"
 
@@ -68,10 +80,58 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     }
     
+    
+    @IBAction func changeThemeTapped(_ sender: UIBarButtonItem) {
+        
+        if ViewController.dayTime {
+            self.nightTimeBackground()
+        } else {
+            self.dayTimeBackground()
+        }
+        
+//        UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+//
+//        })
+        
+    }
+    
+    
+    func applyPlainShadow(image: UIImageView) {
+        image.layer.shadowColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0).cgColor
+        image.layer.shadowOffset = CGSize.zero
+        image.layer.shadowRadius = 3.0
+        image.layer.shadowOpacity = 0.3
+    }
+    
     func dayTimeBackground() {
         
+        ViewController.dayTime = true
+        
+//        searchField.textColor
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor(red: 128/255.0, green: 160/255.0, blue: 186/255.0, alpha: 1.0)
+
+        weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherCond))
+
+        
+        ViewController.dayTime = true
+        
+        sunriseImage.image = UIImage(named: "sunrise_day")
+        sunsetImage.image = UIImage(named: "sunset_day")
+        windImage.image = UIImage(named: "wind_day")
+        maxTempImage.image = UIImage(named: "high_temp_day")
+        minTempImage.image = UIImage(named: "low_temp_day")
+        humidityImage.image = UIImage(named: "humidity_day")
+        
+        applyPlainShadow(image: sunriseImage)
+        applyPlainShadow(image: sunsetImage)
+        applyPlainShadow(image: windImage)
+        applyPlainShadow(image: maxTempImage)
+        applyPlainShadow(image: minTempImage)
+        applyPlainShadow(image: humidityImage)
+        
+        
 //        let topColour = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0).cgColor
-        let topColour = UIColor(red: 232/255.0, green: 242/255.0, blue: 253/255.0, alpha: 1.0).cgColor
+        let topColour = UIColor(red: 242/255.0, green: 252/255.0, blue: 263/255.0, alpha: 1.0).cgColor
         
         let bottomColour = UIColor.white.cgColor
 
@@ -86,7 +146,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
         
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = UIColor(red: 232/255.0, green: 242/255.0, blue: 253/255.0, alpha: 1.0)
+        navigationController?.navigationBar.barTintColor = UIColor(red: 242/255.0, green: 252/255.0, blue: 263/255.0, alpha: 1.0)
 //        navigationController?.navigationBar.barTintColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0)
         navigationController?.navigationBar.shadowImage = UIImage()
         
@@ -95,7 +155,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         cityLabel.textColor = UIColor(red: 138/255.0, green: 180/255.0, blue: 196/255.0, alpha: 1.0)
         descriptionLabel.textColor = UIColor(red: 148/255.0, green: 190/255.0, blue: 206/255.0, alpha: 1.0)
-        tempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+        tempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 0.8)
 //        sunriseLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
 //        sunsetLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
 //        windSpeedLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
@@ -110,6 +170,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func nightTimeBackground() {
         
+        ViewController.dayTime = false
+        
+        weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherCond))
+        
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
+
+        
 //        let topColour = UIColor(red: 22/255.0, green: 38/255.0, blue: 52/255.0, alpha: 1.0).cgColor
 //        let bottomColour = UIColor(red: 9/255.0, green: 16/255.0, blue: 21/255.0, alpha: 1.0).cgColor
         
@@ -121,19 +188,38 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
         
         navigationController?.navigationBar.isTranslucent = false
+        
+        
+        
         navigationController?.navigationBar.barTintColor = UIColor.black
         navigationController?.navigationBar.shadowImage = UIImage()
         
-        cityLabel.layer.shadowColor = UIColor.black.cgColor
-        cityLabel.layer.shadowOffset = CGSize.zero
-        cityLabel.layer.shadowRadius = 1.5
-        cityLabel.layer.shadowOpacity = 0.4
-        
-        tempLabel.layer.shadowColor = UIColor.black.cgColor
-        tempLabel.layer.shadowOffset = CGSize.zero
-        tempLabel.layer.shadowRadius = 1.0
-        tempLabel.layer.shadowOpacity = 0.4
+//        cityLabel.layer.shadowColor = UIColor.black.cgColor
+//        cityLabel.layer.shadowOffset = CGSize.zero
+//        cityLabel.layer.shadowRadius = 1.5
+//        cityLabel.layer.shadowOpacity = 0.4
+//
+//        tempLabel.layer.shadowColor = UIColor.black.cgColor
+//        tempLabel.layer.shadowOffset = CGSize.zero
+//        tempLabel.layer.shadowRadius = 1.0
+//        tempLabel.layer.shadowOpacity = 0.4
 
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)]
+        navigationController?.navigationBar.tintColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0);
+        
+        
+        cityLabel.textColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0)
+        descriptionLabel.textColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0)
+        tempLabel.textColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
+        
+        
+        sunriseImage.image = UIImage(named: "sunrise_night")
+        sunsetImage.image = UIImage(named: "sunset_night")
+        windImage.image = UIImage(named: "wind_night")
+        maxTempImage.image = UIImage(named: "high_temp_night")
+        minTempImage.image = UIImage(named: "low_temp_night")
+        humidityImage.image = UIImage(named: "humidity_night")
         
 
     }
@@ -193,6 +279,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let main = weather.main
         let weatherDes = weather.weather[0]
         let coord = weather.coord
+        weatherCond = weatherDes.id
         tempLabel.text = "\(Int(main.temp))°"
         cityLabel.text = weather.name.uppercased()
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
