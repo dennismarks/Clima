@@ -35,6 +35,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let gradientLayer = CAGradientLayer()
     
     
+    @IBAction func searchTapped(_ sender: UIBarButtonItem) {
+        UIView.transition(with: view, duration: 0.8, options: .transitionCrossDissolve, animations: {
+//            self.searchButton.isHidden = true
+//            self.timeLabel.isHidden = true
+            self.cityLabel.isHidden = true
+            self.descriptionLabel.isHidden = true
+            self.searchBar.isHidden = false
+            self.searchBar.becomeFirstResponder()
+        })
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,6 +63,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         cityLabel.adjustsFontSizeToFitWidth = true
         cityLabel.minimumScaleFactor = 0.2
+        
+        tempLabel.adjustsFontSizeToFitWidth = true
+        cityLabel.minimumScaleFactor = 0.2
     }
     
 //    func dayTimeBackground() {
@@ -64,20 +79,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func nightTimeBackground() {
         
-        let topColour = UIColor(red: 22/255.0, green: 38/255.0, blue: 52/255.0, alpha: 1.0).cgColor
-        let bottomColour = UIColor(red: 9/255.0, green: 16/255.0, blue: 21/255.0, alpha: 1.0).cgColor
+//        let topColour = UIColor(red: 22/255.0, green: 38/255.0, blue: 52/255.0, alpha: 1.0).cgColor
+//        let bottomColour = UIColor(red: 9/255.0, green: 16/255.0, blue: 21/255.0, alpha: 1.0).cgColor
         
-//        let topColour = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0).cgColor
-//        let bottomColour = UIColor(red: 32/255.0, green: 48/255.0, blue: 62/255.0, alpha: 1.0).cgColor
+        let topColour = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+        let bottomColour = UIColor(red: 32/255.0, green: 48/255.0, blue: 62/255.0, alpha: 1.0).cgColor
         
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [topColour, bottomColour]
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
-//        dayTimeBackground()
         nightTimeBackground()
+        super.viewWillAppear(animated)
+        self.navigationItem.title = "99:99 PM"
+        navigationController?.navigationBar.barTintColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0)
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = UIColor.white
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        tabBarController?.tabBar.tintColor = UIColor.white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     
@@ -135,7 +159,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let main = weather.main
         let weatherDes = weather.weather[0]
         let coord = weather.coord
-        tempLabel.text = "\(Int(main.temp))"
+        tempLabel.text = "\(Int(main.temp))°"
         cityLabel.text = weather.name.uppercased()
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
         descriptionLabel.text = String(weatherDes.weatherDescription)
@@ -164,7 +188,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 dateFormatter.dateStyle = .none
                 dateFormatter.timeStyle = .short
                 dateFormatter.timeZone = timezone
-                self.timeLabel.text = dateFormatter.string(from: Date())
+                self.navigationItem.title = dateFormatter.string(from: Date())
                 
                 // wind label
                 let wind = weather.wind
@@ -224,21 +248,10 @@ extension ViewController: UISearchBarDelegate {
         UIView.transition(with: view, duration: 0.8, options: .transitionCrossDissolve, animations: {
             self.searchBar.isHidden = true
             self.searchBar.resignFirstResponder()
-            self.searchButton.isHidden = false
-            self.timeLabel.isHidden = false
+//            self.searchButton.isHidden = false
+//            self.timeLabel.isHidden = false
             self.cityLabel.isHidden = false
             self.descriptionLabel.isHidden = false
-        })
-    }
-    
-    @IBAction func searchButtonClicked(_ sender: Any) {
-        UIView.transition(with: view, duration: 0.8, options: .transitionCrossDissolve, animations: {
-            self.searchButton.isHidden = true
-            self.timeLabel.isHidden = true
-            self.cityLabel.isHidden = true
-            self.descriptionLabel.isHidden = true
-            self.searchBar.isHidden = false
-            self.searchBar.becomeFirstResponder()
         })
     }
     

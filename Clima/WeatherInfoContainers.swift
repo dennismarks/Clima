@@ -14,8 +14,9 @@ class WeatherInfoContainers: UIView {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize.zero
         layer.shadowRadius = 5.0
-        layer.shadowOpacity = 0.8
-        layer.cornerRadius = 10
+        layer.shadowOpacity = 0.4
+//        layer.cornerRadius = 10
+        layer.backgroundColor = .none
     }
     
     override init(frame: CGRect) {
