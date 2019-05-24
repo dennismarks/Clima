@@ -33,18 +33,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     let gradientLayer = CAGradientLayer()
-    
-    
-    @IBAction func searchTapped(_ sender: UIBarButtonItem) {
-        UIView.transition(with: view, duration: 0.8, options: .transitionCrossDissolve, animations: {
-//            self.searchButton.isHidden = true
-//            self.timeLabel.isHidden = true
-            self.cityLabel.isHidden = true
-            self.descriptionLabel.isHidden = true
-            self.searchBar.isHidden = false
-            self.searchBar.becomeFirstResponder()
-        })
-    }
+//    let containersView = WeatherInfoContainers()
     
     
     override func viewDidLoad() {
@@ -61,20 +50,62 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         
+        tempLabel.adjustsFontSizeToFitWidth = true
+        tempLabel.minimumScaleFactor = 0.2
         cityLabel.adjustsFontSizeToFitWidth = true
         cityLabel.minimumScaleFactor = 0.2
         
-        tempLabel.adjustsFontSizeToFitWidth = true
-        cityLabel.minimumScaleFactor = 0.2
     }
     
-//    func dayTimeBackground() {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        nightTimeBackground()
+//        dayTimeBackground()
+        super.viewWillAppear(animated)
+        self.navigationItem.title = "99:99 PM"
+
+//        UINavigationBar.appearance().shadowImage = UIImage()
+
+    }
+    
+    func dayTimeBackground() {
+        
+//        let topColour = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0).cgColor
+        let topColour = UIColor(red: 232/255.0, green: 242/255.0, blue: 253/255.0, alpha: 1.0).cgColor
+        
+        let bottomColour = UIColor.white.cgColor
+
+//        let bottomColour = UIColor(red: 235/255.0, green: 248/255.0, blue: 255/255.0, alpha: 1.0).cgColor
+//        let bottomColour = UIColor(red: 62/255.0, green: 78/255.0, blue: 92/255.0, alpha: 1.0).cgColor
+
+        
 //        let topColour = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0).cgColor
-//        let bottomColour = UIColor(red: 145/255.0, green: 188/255.0, blue: 204/255.0, alpha: 1.0).cgColor
-//        gradientLayer.frame = view.bounds
-//        gradientLayer.colors = [topColour, bottomColour]
-//        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
-//    }
+//        let bottomColour = UIColor(red: 135/255.0, green: 178/255.0, blue: 194/255.0, alpha: 1.0).cgColor
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [topColour, bottomColour]
+        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = UIColor(red: 232/255.0, green: 242/255.0, blue: 253/255.0, alpha: 1.0)
+//        navigationController?.navigationBar.barTintColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0)]
+        navigationController?.navigationBar.tintColor = UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0);
+        
+        cityLabel.textColor = UIColor(red: 138/255.0, green: 180/255.0, blue: 196/255.0, alpha: 1.0)
+        descriptionLabel.textColor = UIColor(red: 148/255.0, green: 190/255.0, blue: 206/255.0, alpha: 1.0)
+        tempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+//        sunriseLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+//        sunsetLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+//        windSpeedLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+//        maxTempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+//        minTempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+//        humidityLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
+        
+
+        
+    }
     
     
     func nightTimeBackground() {
@@ -88,20 +119,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [topColour, bottomColour]
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        nightTimeBackground()
-        super.viewWillAppear(animated)
-        self.navigationItem.title = "99:99 PM"
-        navigationController?.navigationBar.barTintColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0)
+        
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.tintColor = UIColor.white
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        tabBarController?.tabBar.tintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barTintColor = UIColor.black
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        cityLabel.layer.shadowColor = UIColor.black.cgColor
+        cityLabel.layer.shadowOffset = CGSize.zero
+        cityLabel.layer.shadowRadius = 1.5
+        cityLabel.layer.shadowOpacity = 0.4
+        
+        tempLabel.layer.shadowColor = UIColor.black.cgColor
+        tempLabel.layer.shadowOffset = CGSize.zero
+        tempLabel.layer.shadowRadius = 1.0
+        tempLabel.layer.shadowOpacity = 0.4
+
+        
+
     }
     
     
@@ -245,14 +279,27 @@ extension ViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        UIView.transition(with: view, duration: 0.8, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
             self.searchBar.isHidden = true
             self.searchBar.resignFirstResponder()
 //            self.searchButton.isHidden = false
 //            self.timeLabel.isHidden = false
-            self.cityLabel.isHidden = false
-            self.descriptionLabel.isHidden = false
+//            self.cityLabel.isHidden = false
+//            self.descriptionLabel.isHidden = false
         })
+    }
+    
+    @IBAction func searchTapped(_ sender: UIBarButtonItem) {
+        self.searchBar.isHidden = false
+        self.searchBar.becomeFirstResponder()
+        //        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+        ////            self.searchButton.isHidden = true
+        ////            self.timeLabel.isHidden = true
+        ////            self.cityLabel.isHidden = true
+        ////            self.descriptionLabel.isHidden = true
+        //            self.searchBar.isHidden = false
+        //            self.searchBar.becomeFirstResponder()
+        //        })
     }
     
 }

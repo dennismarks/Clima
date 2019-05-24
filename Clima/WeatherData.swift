@@ -76,7 +76,7 @@ func updateWeatherIcon(condition: Int) -> String {
         case 800 :
             return "sun_night"
         case 801...804 :
-            return "cloud_night"
+            return "cloud_day"
         case 900...903, 905...1000  :
             return "lightning_night"
         case 903 :

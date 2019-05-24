@@ -9,24 +9,32 @@
 import UIKit
 
 class WeatherInfoContainers: UIView {
+    
+    var apply : Bool = false
+    
+    func name() {
+        print("Hello")
+    }
 
     func applyPlainShadow() {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize.zero
         layer.shadowRadius = 5.0
         layer.shadowOpacity = 0.4
-//        layer.cornerRadius = 10
-        layer.backgroundColor = .none
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        applyPlainShadow()
+//        applyPlainShadow()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        applyPlainShadow()
+        if apply {
+            applyPlainShadow()
+        }
+//        layer.backgroundColor = .none
+//        applyPlainShadow()
     }
     
 }
