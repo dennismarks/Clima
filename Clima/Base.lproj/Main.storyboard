@@ -69,7 +69,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b5I-o3-oaz">
                                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="181"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rain_night" translatesAutoresizingMaskIntoConstraints="NO" id="V8r-SU-Cm3">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rain_night" translatesAutoresizingMaskIntoConstraints="NO" id="V8r-SU-Cm3">
                                                                         <rect key="frame" x="5" y="5" width="143.5" height="143.5"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="V8r-SU-Cm3" secondAttribute="height" multiplier="1:1" id="9UE-xA-MPk"/>
@@ -88,7 +88,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5b-tK-DZ0">
                                                                         <rect key="frame" x="0.0" y="59.5" width="153.5" height="116.5"/>
                                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="100"/>
-                                                                        <color key="textColor" red="0.64705882349999999" green="0.81568627449999997" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="textColor" red="0.57254901960000004" green="0.82745098039999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
@@ -411,6 +411,11 @@
                         <viewLayoutGuide key="safeArea" id="jlh-NP-Dhd"/>
                     </view>
                     <navigationItem key="navigationItem" id="Imk-eR-6zH">
+                        <barButtonItem key="leftBarButtonItem" image="theme" id="GDC-2N-cdH">
+                            <connections>
+                                <action selector="changeThemeTapped:" destination="QcR-lq-QvO" id="lCO-xF-oWR"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="z2Q-bE-lLf">
                             <connections>
                                 <action selector="searchTapped:" destination="QcR-lq-QvO" id="M5m-u0-1it"/>
@@ -421,14 +426,20 @@
                         <outlet property="backgroundView" destination="qo9-eY-UvS" id="OEd-HX-6Z2"/>
                         <outlet property="cityLabel" destination="atb-fr-WdP" id="DP6-Ot-77I"/>
                         <outlet property="descriptionLabel" destination="kIa-EY-0wN" id="SmB-gD-hn7"/>
+                        <outlet property="humidityImage" destination="jfO-Ci-RTg" id="VmE-ei-AZp"/>
                         <outlet property="humidityLabel" destination="PMD-tw-T2c" id="aRf-LL-M0H"/>
+                        <outlet property="maxTempImage" destination="oeu-vl-s0A" id="Mz7-QH-2hg"/>
                         <outlet property="maxTempLabel" destination="Lpk-mW-kYy" id="wFF-OV-VKQ"/>
+                        <outlet property="minTempImage" destination="cTU-ri-YTh" id="ddD-az-QcZ"/>
                         <outlet property="minTempLabel" destination="FYM-wP-zdt" id="XeR-3o-HXw"/>
                         <outlet property="searchBar" destination="WAY-vN-h8R" id="LLg-e3-So6"/>
+                        <outlet property="sunriseImage" destination="cpO-M5-IqG" id="ACj-Pw-uVb"/>
                         <outlet property="sunriseLabel" destination="Tb2-mp-sC3" id="ZSE-iK-mY3"/>
+                        <outlet property="sunsetImage" destination="LU6-V4-Kcr" id="mJ6-PJ-edC"/>
                         <outlet property="sunsetLabel" destination="nuK-wR-Y7T" id="Jlz-OM-ftJ"/>
                         <outlet property="tempLabel" destination="E5b-tK-DZ0" id="PTW-JL-aEr"/>
                         <outlet property="weatherIcon" destination="V8r-SU-Cm3" id="SRi-Av-UHp"/>
+                        <outlet property="windImage" destination="rvO-xe-lyz" id="Mwm-Zy-1Th"/>
                         <outlet property="windSpeedLabel" destination="Uck-NE-Qo3" id="7Fk-Ds-HPs"/>
                     </connections>
                 </viewController>
@@ -465,6 +476,7 @@
         <image name="rain_night" width="256" height="256"/>
         <image name="sunrise_day" width="128" height="128"/>
         <image name="sunset_day" width="128" height="128"/>
+        <image name="theme" width="25" height="25"/>
         <image name="wind_day" width="128" height="128"/>
     </resources>
 </document>
