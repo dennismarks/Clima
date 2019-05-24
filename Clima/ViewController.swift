@@ -41,11 +41,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var minTempImage: UIImageView!
     @IBOutlet weak var humidityImage: UIImageView!
     
+    // Weather info stacks
+    @IBOutlet weak var bottomFirstStack: UIStackView!
+    @IBOutlet weak var bottomSecondStack: UIStackView!
     
     let locationManager = CLLocationManager()
     let gradientLayer = CAGradientLayer()
     var weatherCond : Int = 0
-//    let containersView = WeatherInfoContainers()
     
     
     override func viewDidLoad() {
@@ -60,7 +62,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
         
         searchBar.delegate = self
-        searchBar.searchBarStyle = .minimal
         
         tempLabel.adjustsFontSizeToFitWidth = true
         tempLabel.minimumScaleFactor = 0.2
@@ -74,9 +75,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 //        nightTimeBackground()
         dayTimeBackground()
         super.viewWillAppear(animated)
-        self.navigationItem.title = "99:99 PM"
-
-//        UINavigationBar.appearance().shadowImage = UIImage()
 
     }
     
@@ -89,10 +87,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.dayTimeBackground()
         }
         
-//        UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: {
-//
-//        })
-        
     }
     
     
@@ -103,16 +97,85 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         image.layer.shadowOpacity = 0.3
     }
     
+    fileprivate func animateView() {
+        // animate top view
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.cityLabel.isHidden = false
+            })
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600), execute: {
+            UIView.transition(with: self.view, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                self.descriptionLabel.isHidden = false
+            })
+        })
+        
+        // animate mid view
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800), execute: {
+            UIView.transition(with: self.view, duration: 0.4, options: .transitionCrossDissolve, animations: {
+                self.weatherIcon.isHidden = false
+            })
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
+            UIView.transition(with: self.view, duration: 0.4, options: .transitionCrossDissolve, animations: {
+                self.tempLabel.isHidden = false
+            })
+        })
+        
+        // animate bottom view
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200), execute: {
+            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.bottomFirstStack.layer.opacity = 1.0
+            })
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1400), execute: {
+            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.bottomSecondStack.layer.opacity = 1.0
+            })
+        })
+    }
+    
     func dayTimeBackground() {
+        
+        searchBar.keyboardAppearance = .default
+        searchBar.searchBarStyle = .minimal
+        searchBar.barTintColor = UIColor(red: 128/255.0, green: 160/255.0, blue: 186/255.0, alpha: 1.0)
+        
+        // hide all elemetns
+        cityLabel.isHidden = true
+        descriptionLabel.isHidden = true
+        weatherIcon.isHidden = true
+        tempLabel.isHidden = true
+        bottomFirstStack.layer.opacity = 0.0
+        bottomSecondStack.layer.opacity = 0.0
+        
+        // change the colour background
+        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            let topColour = UIColor(red: 242/255.0, green: 252/255.0, blue: 263/255.0, alpha: 1.0).cgColor
+            let bottomColour = UIColor.white.cgColor
+            self.gradientLayer.frame = self.view.bounds
+            self.gradientLayer.colors = [topColour, bottomColour]
+            self.backgroundView.layer.insertSublayer(self.gradientLayer, at: 0)
+            
+            // animate navigation bar
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(120), execute: {
+                UIView.transition(with: self.view, duration: 1.5, options: .transitionCrossDissolve, animations: {
+//                    navigationController?.navigationBar.isTranslucent = false
+                    self.navigationController?.navigationBar.barTintColor = UIColor(red: 242/255.0, green: 252/255.0, blue: 263/255.0, alpha: 1.0)
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                })
+            })
+        })
+        
+        animateView()
+        
         
         ViewController.dayTime = true
         
-//        searchField.textColor
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor(red: 128/255.0, green: 160/255.0, blue: 186/255.0, alpha: 1.0)
 
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherCond))
 
-        
         ViewController.dayTime = true
         
         sunriseImage.image = UIImage(named: "sunrise_day")
@@ -129,26 +192,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         applyPlainShadow(image: minTempImage)
         applyPlainShadow(image: humidityImage)
         
-        
-//        let topColour = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0).cgColor
-        let topColour = UIColor(red: 242/255.0, green: 252/255.0, blue: 263/255.0, alpha: 1.0).cgColor
-        
-        let bottomColour = UIColor.white.cgColor
-
-//        let bottomColour = UIColor(red: 235/255.0, green: 248/255.0, blue: 255/255.0, alpha: 1.0).cgColor
-//        let bottomColour = UIColor(red: 62/255.0, green: 78/255.0, blue: 92/255.0, alpha: 1.0).cgColor
-
-        
-//        let topColour = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0).cgColor
-//        let bottomColour = UIColor(red: 135/255.0, green: 178/255.0, blue: 194/255.0, alpha: 1.0).cgColor
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [topColour, bottomColour]
-        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = UIColor(red: 242/255.0, green: 252/255.0, blue: 263/255.0, alpha: 1.0)
-//        navigationController?.navigationBar.barTintColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0)
-        navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0)]
         navigationController?.navigationBar.tintColor = UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0);
@@ -170,6 +213,42 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func nightTimeBackground() {
         
+        searchBar.keyboardAppearance = .dark
+        
+//        searchBar.searchBarStyle = .default
+        searchBar.barTintColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
+//        searchBar.barStyle = .black
+        searchBar.searchBarStyle = .minimal
+
+        
+        // hide all elemetns
+        cityLabel.isHidden = true
+        descriptionLabel.isHidden = true
+        weatherIcon.isHidden = true
+        tempLabel.isHidden = true
+        bottomFirstStack.layer.opacity = 0.0
+        bottomSecondStack.layer.opacity = 0.0
+        
+        
+        // change the colour background
+        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            let topColour = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+            let bottomColour = UIColor(red: 32/255.0, green: 48/255.0, blue: 62/255.0, alpha: 1.0).cgColor
+            self.gradientLayer.frame = self.view.bounds
+            self.gradientLayer.colors = [topColour, bottomColour]
+            self.backgroundView.layer.insertSublayer(self.gradientLayer, at: 0)
+            
+            // animate navigation bar
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(120), execute: {
+                UIView.transition(with: self.view, duration: 1.5, options: .transitionCrossDissolve, animations: {
+                    self.navigationController?.navigationBar.barTintColor = UIColor.black
+                    self.navigationController?.navigationBar.shadowImage = UIImage()
+                })
+            })
+        })
+        
+        animateView()
+        
         ViewController.dayTime = false
         
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherCond))
@@ -180,19 +259,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 //        let topColour = UIColor(red: 22/255.0, green: 38/255.0, blue: 52/255.0, alpha: 1.0).cgColor
 //        let bottomColour = UIColor(red: 9/255.0, green: 16/255.0, blue: 21/255.0, alpha: 1.0).cgColor
         
-        let topColour = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0).cgColor
-        let bottomColour = UIColor(red: 32/255.0, green: 48/255.0, blue: 62/255.0, alpha: 1.0).cgColor
-        
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [topColour, bottomColour]
-        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        
-        navigationController?.navigationBar.isTranslucent = false
         
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1900), execute: {
+            UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+//                self.navigationController?.navigationBar.isTranslucent = false
+                
+            })
+        })
         
-        navigationController?.navigationBar.barTintColor = UIColor.black
-        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        
         
 //        cityLabel.layer.shadowColor = UIColor.black.cgColor
 //        cityLabel.layer.shadowOffset = CGSize.zero
@@ -221,7 +298,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         minTempImage.image = UIImage(named: "low_temp_night")
         humidityImage.image = UIImage(named: "humidity_night")
         
-
     }
     
     
