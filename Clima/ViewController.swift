@@ -15,8 +15,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let session = URLSession.shared
     let apiKey = "6be27ba9cc250490f7b3cfecfd088343"
     let urlString = "https://api.openweathermap.org/data/2.5/weather/"
-    static var dayTime = false
-
     
     @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -48,7 +46,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     let gradientLayer = CAGradientLayer()
     var weatherCond : Int = 0
-    
+    static var dayTime : Bool = true
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,26 +66,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         tempLabel.minimumScaleFactor = 0.2
         cityLabel.adjustsFontSizeToFitWidth = true
         cityLabel.minimumScaleFactor = 0.2
-        
     }
     
     
+    
+    fileprivate func updateTheme() {
+        if ViewController.dayTime {
+            dayTimeBackground()
+        } else {
+            nightTimeBackground()
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-//        nightTimeBackground()
-        dayTimeBackground()
+        
+        
         super.viewWillAppear(animated)
-
+//        updateTheme()
+        
     }
     
     
     @IBAction func changeThemeTapped(_ sender: UIBarButtonItem) {
-        
-        if ViewController.dayTime {
-            self.nightTimeBackground()
-        } else {
-            self.dayTimeBackground()
-        }
-        
+        updateTheme()
     }
     
     
@@ -137,8 +139,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func dayTimeBackground() {
         
+        ViewController.dayTime = true
+        
         searchBar.keyboardAppearance = .default
         searchBar.searchBarStyle = .minimal
+        // cancel button colour
         searchBar.barTintColor = UIColor(red: 128/255.0, green: 160/255.0, blue: 186/255.0, alpha: 1.0)
         
         // hide all elemetns
@@ -160,7 +165,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             // animate navigation bar
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(120), execute: {
                 UIView.transition(with: self.view, duration: 1.5, options: .transitionCrossDissolve, animations: {
-//                    navigationController?.navigationBar.isTranslucent = false
                     self.navigationController?.navigationBar.barTintColor = UIColor(red: 242/255.0, green: 252/255.0, blue: 263/255.0, alpha: 1.0)
                     self.navigationController?.navigationBar.shadowImage = UIImage()
                 })
@@ -169,15 +173,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         animateView()
         
-        
-        ViewController.dayTime = true
-        
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor(red: 128/255.0, green: 160/255.0, blue: 186/255.0, alpha: 1.0)
-
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherCond))
-
-        ViewController.dayTime = true
         
+        // search bar text colour
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0)
+        // navigation bar title colour
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0)]
+        // bar buttons colour
+        navigationController?.navigationBar.tintColor = UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0);
+        // update labels
+        cityLabel.textColor = UIColor(red: 138/255.0, green: 180/255.0, blue: 196/255.0, alpha: 1.0)
+        descriptionLabel.textColor = UIColor(red: 148/255.0, green: 190/255.0, blue: 206/255.0, alpha: 1.0)
+        tempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 0.8)
+        // update weather info images
         sunriseImage.image = UIImage(named: "sunrise_day")
         sunsetImage.image = UIImage(named: "sunset_day")
         windImage.image = UIImage(named: "wind_day")
@@ -192,35 +201,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         applyPlainShadow(image: minTempImage)
         applyPlainShadow(image: humidityImage)
         
-        
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0)]
-        navigationController?.navigationBar.tintColor = UIColor(red: 118/255.0, green: 160/255.0, blue: 176/255.0, alpha: 1.0);
-        
-        cityLabel.textColor = UIColor(red: 138/255.0, green: 180/255.0, blue: 196/255.0, alpha: 1.0)
-        descriptionLabel.textColor = UIColor(red: 148/255.0, green: 190/255.0, blue: 206/255.0, alpha: 1.0)
-        tempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 0.8)
-//        sunriseLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
-//        sunsetLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
-//        windSpeedLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
-//        maxTempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
-//        minTempLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
-//        humidityLabel.textColor = UIColor(red: 158/255.0, green: 200/255.0, blue: 216/255.0, alpha: 1.0)
-        
-
-        
     }
     
     
     func nightTimeBackground() {
         
+        ViewController.dayTime = false
+        
         searchBar.keyboardAppearance = .dark
-        
-//        searchBar.searchBarStyle = .default
-        searchBar.barTintColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
-//        searchBar.barStyle = .black
         searchBar.searchBarStyle = .minimal
+        // cancel button colour
+        searchBar.barTintColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
 
-        
         // hide all elemetns
         cityLabel.isHidden = true
         descriptionLabel.isHidden = true
@@ -228,7 +220,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         tempLabel.isHidden = true
         bottomFirstStack.layer.opacity = 0.0
         bottomSecondStack.layer.opacity = 0.0
-        
         
         // change the colour background
         UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
@@ -249,48 +240,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         animateView()
         
-        ViewController.dayTime = false
-        
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherCond))
         
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
-
-        
-//        let topColour = UIColor(red: 22/255.0, green: 38/255.0, blue: 52/255.0, alpha: 1.0).cgColor
-//        let bottomColour = UIColor(red: 9/255.0, green: 16/255.0, blue: 21/255.0, alpha: 1.0).cgColor
-        
-        
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1900), execute: {
-            UIView.transition(with: self.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
-//                self.navigationController?.navigationBar.isTranslucent = false
-                
-            })
-        })
-        
-        
-        
-        
-//        cityLabel.layer.shadowColor = UIColor.black.cgColor
-//        cityLabel.layer.shadowOffset = CGSize.zero
-//        cityLabel.layer.shadowRadius = 1.5
-//        cityLabel.layer.shadowOpacity = 0.4
-//
-//        tempLabel.layer.shadowColor = UIColor.black.cgColor
-//        tempLabel.layer.shadowOffset = CGSize.zero
-//        tempLabel.layer.shadowRadius = 1.0
-//        tempLabel.layer.shadowOpacity = 0.4
-
-        
+        // search bar text colour
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
+        // navigation bar title colour
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)]
+        // bar buttons colour
         navigationController?.navigationBar.tintColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0);
-        
-        
+        // update labels
         cityLabel.textColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0)
         descriptionLabel.textColor = UIColor(red: 165/255.0, green: 208/255.0, blue: 224/255.0, alpha: 1.0)
         tempLabel.textColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
-        
-        
+        // update weather info images
         sunriseImage.image = UIImage(named: "sunrise_night")
         sunsetImage.image = UIImage(named: "sunset_night")
         windImage.image = UIImage(named: "wind_night")
@@ -352,6 +315,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func updateUI(weather: WeatherData) {
+        
+        cityLabel.isHidden = true
+        descriptionLabel.isHidden = true
+        weatherIcon.isHidden = true
+        tempLabel.isHidden = true
+        bottomFirstStack.layer.opacity = 0.0
+        bottomSecondStack.layer.opacity = 0.0
+        
         let main = weather.main
         let weatherDes = weather.weather[0]
         let coord = weather.coord
@@ -368,7 +339,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func updateLocationBasedUI(weather: WeatherData, coordinates: Coordinates) {
-        
         let locationForTimeZone = CLLocation(latitude: coordinates.lat, longitude: coordinates.lon)
         let geoCoder = CLGeocoder()
         geoCoder.reverseGeocodeLocation(locationForTimeZone) { (placemarks, err) in
@@ -376,8 +346,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             if let timeZoneToUse = placemark.timeZone {
                 
                 // sunrise and sunset labels
-                self.sunriseLabel.text = self.formatTime(time: Double(weather.sys.sunrise), timeZone: timeZoneToUse)
-                self.sunsetLabel.text = self.formatTime(time: Double(weather.sys.sunset), timeZone: timeZoneToUse)
+                let sunrise = self.formatTime(time: Double(weather.sys.sunrise), timeZone: timeZoneToUse)
+                let sunset = self.formatTime(time: Double(weather.sys.sunset), timeZone: timeZoneToUse)
+                self.sunriseLabel.text = sunrise
+                self.sunsetLabel.text = sunset
                 
                 // time label
                 let timezone = TimeZone.init(identifier: timeZoneToUse.identifier)
@@ -385,11 +357,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 dateFormatter.dateStyle = .none
                 dateFormatter.timeStyle = .short
                 dateFormatter.timeZone = timezone
-                self.navigationItem.title = dateFormatter.string(from: Date())
+                let curTime = dateFormatter.string(from: Date())
+                self.navigationItem.title = curTime
+                
+                if (sunrise < curTime && curTime < sunset) {
+                    ViewController.dayTime = true
+                } else {
+                    ViewController.dayTime = false
+                }
                 
                 // wind label
                 let wind = weather.wind
                 self.windSpeedLabel.text = "\(wind.speed) m/s"
+                
+                self.updateTheme()
             }
         }
     }
@@ -445,24 +426,12 @@ extension ViewController: UISearchBarDelegate {
         UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
             self.searchBar.isHidden = true
             self.searchBar.resignFirstResponder()
-//            self.searchButton.isHidden = false
-//            self.timeLabel.isHidden = false
-//            self.cityLabel.isHidden = false
-//            self.descriptionLabel.isHidden = false
         })
     }
     
     @IBAction func searchTapped(_ sender: UIBarButtonItem) {
         self.searchBar.isHidden = false
         self.searchBar.becomeFirstResponder()
-        //        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
-        ////            self.searchButton.isHidden = true
-        ////            self.timeLabel.isHidden = true
-        ////            self.cityLabel.isHidden = true
-        ////            self.descriptionLabel.isHidden = true
-        //            self.searchBar.isHidden = false
-        //            self.searchBar.becomeFirstResponder()
-        //        })
     }
     
 }

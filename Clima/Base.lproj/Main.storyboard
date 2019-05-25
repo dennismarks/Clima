@@ -37,7 +37,7 @@
                                             </label>
                                             <searchBar hidden="YES" contentMode="redraw" placeholder="Search.." showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WAY-vN-h8R">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" spellCheckingType="yes"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="searchField.textColor">
                                                         <color key="value" red="0.57254901960000004" green="0.82745098039999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
