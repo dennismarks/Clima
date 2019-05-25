@@ -62,6 +62,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         searchBar.delegate = self
         
+//        cityLabel.adjustsFontForContentSizeCategory = true
         tempLabel.adjustsFontSizeToFitWidth = true
         tempLabel.minimumScaleFactor = 0.2
         cityLabel.adjustsFontSizeToFitWidth = true
@@ -71,6 +72,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     fileprivate func updateTheme() {
+        self.searchBar.isHidden = true
         if ViewController.dayTime {
             dayTimeBackground()
         } else {
@@ -82,7 +84,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
 
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barTintColor = UIColor.black
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.tintColor = UIColor.black
         view.layer.isHidden = true
 //        updateTheme()
         
@@ -91,7 +95,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     @IBAction func changeThemeTapped(_ sender: UIBarButtonItem) {
-        updateTheme()
+        let latitude = String(locationManager.location!.coordinate.latitude)
+        let longtitude = String(locationManager.location!.coordinate.longitude)
+        searchBarCancelButtonClicked(searchBar)
+        getWeatherUsingCoordinates(latitude: latitude, longtitude: longtitude)
     }
     
     
@@ -233,7 +240,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.backgroundView.layer.insertSublayer(self.gradientLayer, at: 0)
             
             // animate navigation bar
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(120), execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(90), execute: {
                 UIView.transition(with: self.view, duration: 1.5, options: .transitionCrossDissolve, animations: {
                     self.navigationController?.navigationBar.barTintColor = UIColor.black
                     self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -364,7 +371,58 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 let curTime = dateFormatter.string(from: Date())
                 self.navigationItem.title = curTime
                 
-                if (sunrise < curTime && curTime < sunset) {
+                let curHours = Int(curTime.prefix(1))
+                let start = curTime.index(curTime.startIndex, offsetBy: 2)
+                let end = curTime.index(curTime.endIndex, offsetBy: -3)
+                let range = start..<end
+                let curMinutes = Int(curTime[range])
+                let amPm = curTime.suffix(2)
+                var curSec = 0
+                if let hours = curHours {
+                    if let minutes = curMinutes {
+                        if amPm == "PM" {
+                            curSec = (hours + 12) * 3600 + minutes * 60
+                        } else {
+                            curSec = hours * 3600 + minutes * 60
+                        }
+                    }
+                }
+                
+                let riseHours = Int(sunrise.prefix(1))
+                let riseStart = sunrise.index(sunrise.startIndex, offsetBy: 2)
+                let riseEnd = sunrise.index(sunrise.endIndex, offsetBy: -3)
+                let riseRange = riseStart..<riseEnd
+                let riseMinutes = Int(sunrise[riseRange])
+                let riseAmPm = sunrise.suffix(2)
+                var riseSec = 0
+                if let hours = riseHours {
+                    if let minutes = riseMinutes {
+                        if riseAmPm == "PM" {
+                            riseSec = (hours + 12) * 3600 + minutes * 60
+                        } else {
+                            riseSec = hours * 3600 + minutes * 60
+                        }
+                    }
+                }
+                
+                let setHours = Int(sunset.prefix(1))
+                let setStart = sunset.index(sunset.startIndex, offsetBy: 2)
+                let setEnd = sunset.index(sunset.endIndex, offsetBy: -3)
+                let setRange = setStart..<setEnd
+                let setMinutes = Int(sunset[setRange])
+                let setAmPm = sunset.suffix(2)
+                var setSec = 0
+                if let hours = setHours {
+                    if let minutes = setMinutes {
+                        if setAmPm == "PM" {
+                            setSec = (hours + 12) * 3600 + minutes * 60
+                        } else {
+                            setSec = hours * 3600 + minutes * 60
+                        }
+                    }
+                }
+                
+                if (riseSec < curSec && curSec < setSec) {
                     ViewController.dayTime = true
                 } else {
                     ViewController.dayTime = false
@@ -374,16 +432,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 let wind = weather.wind
                 self.windSpeedLabel.text = "\(wind.speed) m/s"
                 
-                
                 self.updateTheme()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
-                    self.navigationController?.navigationBar.isHidden = false
-                })
-//
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
-                    self.view.layer.isHidden = false
-                })
+                self.navigationController?.navigationBar.layer.opacity = 1.0
+                self.view.layer.isHidden = false
             }
         }
     }
@@ -403,6 +454,10 @@ extension ViewController {
         let latitude = String(location.coordinate.latitude)
         let longtitude = String(location.coordinate.longitude)
         
+        getWeatherUsingCoordinates(latitude: latitude, longtitude: longtitude)
+    }
+    
+    func getWeatherUsingCoordinates(latitude: String, longtitude: String) {
         guard var urlComponents = URLComponents(string: urlString) else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: "lat", value: latitude),
@@ -433,11 +488,9 @@ extension ViewController: UISearchBarDelegate {
         searchBar.text! = ""
         searchBarCancelButtonClicked(searchBar)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
             self.getWeatherData(for: url)
         })
-        
-        
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
