@@ -79,11 +79,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        
+
+
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+        view.layer.isHidden = true
 //        updateTheme()
         
+
     }
     
     
@@ -265,6 +268,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func getWeatherData(for url: URL) {
+        
         session.dataTask(with: url) { (data, response, error) in
             // check if error is nil
             if error != nil {
@@ -370,7 +374,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 let wind = weather.wind
                 self.windSpeedLabel.text = "\(wind.speed) m/s"
                 
+                
                 self.updateTheme()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+                    self.navigationController?.navigationBar.isHidden = false
+                })
+//
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
+                    self.view.layer.isHidden = false
+                })
             }
         }
     }
@@ -415,10 +428,15 @@ extension ViewController: UISearchBarDelegate {
             URLQueryItem(name: "appid", value: apiKey)
         ]
         guard let url = urlComponents.url else { return }
-        getWeatherData(for: url)
+        
         searchBar.resignFirstResponder()
         searchBar.text! = ""
         searchBarCancelButtonClicked(searchBar)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
+            self.getWeatherData(for: url)
+        })
+        
         
     }
     
