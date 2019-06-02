@@ -81,16 +81,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
-
         super.viewWillAppear(animated)
         navigationController?.navigationBar.barTintColor = UIColor.black
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = UIColor.black
         view.layer.isHidden = true
-//        updateTheme()
-        
-
     }
     
     
@@ -348,7 +343,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         updateLocationBasedUI(weather: weather, coordinates: coord)
     }
     
-    
     func updateLocationBasedUI(weather: WeatherData, coordinates: Coordinates) {
         let locationForTimeZone = CLLocation(latitude: coordinates.lat, longitude: coordinates.lon)
         let geoCoder = CLGeocoder()
@@ -371,61 +365,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 let curTime = dateFormatter.string(from: Date())
                 self.navigationItem.title = curTime
                 
-                let curHours = Int(curTime.prefix(1))
-                let start = curTime.index(curTime.startIndex, offsetBy: 2)
-                let end = curTime.index(curTime.endIndex, offsetBy: -3)
-                let range = start..<end
-                let curMinutes = Int(curTime[range])
-                let amPm = curTime.suffix(2)
-                var curSec = 0
-                if let hours = curHours {
-                    if let minutes = curMinutes {
-                        if amPm == "PM" {
-                            curSec = (hours + 12) * 3600 + minutes * 60
-                        } else {
-                            curSec = hours * 3600 + minutes * 60
-                        }
-                    }
-                }
+                let riseSec = self.computeSeconds(time: sunrise)
+                let setSec = self.computeSeconds(time: sunset)
+                let curSec = self.computeSeconds(time: curTime)
                 
-                let riseHours = Int(sunrise.prefix(1))
-                let riseStart = sunrise.index(sunrise.startIndex, offsetBy: 2)
-                let riseEnd = sunrise.index(sunrise.endIndex, offsetBy: -3)
-                let riseRange = riseStart..<riseEnd
-                let riseMinutes = Int(sunrise[riseRange])
-                let riseAmPm = sunrise.suffix(2)
-                var riseSec = 0
-                if let hours = riseHours {
-                    if let minutes = riseMinutes {
-                        if riseAmPm == "PM" {
-                            riseSec = (hours + 12) * 3600 + minutes * 60
-                        } else {
-                            riseSec = hours * 3600 + minutes * 60
-                        }
-                    }
-                }
-                
-                let setHours = Int(sunset.prefix(1))
-                let setStart = sunset.index(sunset.startIndex, offsetBy: 2)
-                let setEnd = sunset.index(sunset.endIndex, offsetBy: -3)
-                let setRange = setStart..<setEnd
-                let setMinutes = Int(sunset[setRange])
-                let setAmPm = sunset.suffix(2)
-                var setSec = 0
-                if let hours = setHours {
-                    if let minutes = setMinutes {
-                        if setAmPm == "PM" {
-                            setSec = (hours + 12) * 3600 + minutes * 60
-                        } else {
-                            setSec = hours * 3600 + minutes * 60
-                        }
-                    }
-                }
-                
-                if (riseSec < curSec && curSec < setSec) {
+                if curSec == 1 {
                     ViewController.dayTime = true
-                } else {
+                } else if curSec == 2 {
                     ViewController.dayTime = false
+                } else {
+                    if (riseSec < curSec && curSec < setSec) {
+                        ViewController.dayTime = true
+                    } else {
+                        ViewController.dayTime = false
+                    }
                 }
                 
                 // wind label
@@ -437,6 +390,61 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.view.layer.isHidden = false
             }
         }
+    }
+    
+    func computeSeconds(time: String) -> Int {
+        if let idx = time.firstIndex(of: ":") {
+            let pos = time.distance(from: time.startIndex, to: idx)
+            if pos == 1 {
+                print("-> \(time)")
+                let curHours = Int(time.prefix(1))
+                let start = time.index(time.startIndex, offsetBy: 2)
+                let end = time.index(time.endIndex, offsetBy: -3)
+                let range = start..<end
+                let curMinutes = Int(time[range])
+                let amPm = time.suffix(2)
+                if let hours = curHours {
+                    if let minutes = curMinutes {
+                        var curSec = 0
+                        if amPm == "PM" {
+                            curSec = (hours + 12) * 3600 + minutes * 60
+                        } else {
+                            print("Here")
+                            curSec = hours * 3600 + minutes * 60
+                        }
+                        return curSec
+                    }
+                }
+            } else {
+                print("-> \(time)")
+                let curHours = Int(time.prefix(2))
+                let start = time.index(time.startIndex, offsetBy: 3)
+                let end = time.index(time.endIndex, offsetBy: -3)
+                let range = start..<end
+                let curMinutes = Int(time[range])
+                let amPm = time.suffix(2)
+                if let hours = curHours {
+                    if let minutes = curMinutes {
+                        var curSec = 0
+                        if amPm == "PM" {
+                            if curHours == 12 {
+                                return 1
+                            } else {
+                                curSec = (hours + 12) * 3600 + minutes * 60
+                            }
+                        } else {
+                            if curHours == 12 {
+                                return 2
+                            } else {
+                                curSec = hours * 3600 + minutes * 60
+                            }
+                        }
+                        return curSec
+                    }
+                }
+            }
+        }
+        return 0
     }
     
 }
@@ -468,7 +476,6 @@ extension ViewController {
         guard let url = urlComponents.url else { return }
         getWeatherData(for: url)
     }
-    
 }
 
 

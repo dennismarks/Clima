@@ -412,11 +412,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="Imk-eR-6zH">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="location" id="GDC-2N-cdH">
+                            <inset key="imageInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <connections>
                                 <action selector="changeThemeTapped:" destination="QcR-lq-QvO" id="lCO-xF-oWR"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="z2Q-bE-lLf">
+                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
                             <connections>
                                 <action selector="searchTapped:" destination="QcR-lq-QvO" id="M5m-u0-1it"/>
                             </connections>
