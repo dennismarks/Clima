@@ -12,6 +12,7 @@ import CoreLocation
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // Set up the HTTP request with URLSession
+    
     let session = URLSession.shared
     let apiKey = "6be27ba9cc250490f7b3cfecfd088343"
     let urlString = "https://api.openweathermap.org/data/2.5/weather/"
@@ -44,6 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var bottomSecondStack: UIStackView!
     
     let locationManager = CLLocationManager()
+    
     let gradientLayer = CAGradientLayer()
     var weatherCond : Int = 0
     static var dayTime : Bool = true
@@ -106,40 +108,84 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     fileprivate func animateView() {
         // animate top view
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                self.cityLabel.isHidden = false
-            })
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600), execute: {
-            UIView.transition(with: self.view, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                self.descriptionLabel.isHidden = false
-            })
-        })
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.cityLabel.layer.opacity = 1.0
+        }) { (true) in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.descriptionLabel.layer.opacity = 1.0
+            }) { (true) in
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.weatherIcon.layer.opacity = 1.0
+                }) { (true) in
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.tempLabel.layer.opacity = 1.0
+                    }) { (true) in
+                        UIView.animate(withDuration: 0.4, animations: {
+                            self.bottomFirstStack.layer.opacity = 1.0
+                        }) { (true) in
+                            UIView.animate(withDuration: 0.4, animations: {
+                                self.bottomSecondStack.layer.opacity = 1.0
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+//            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+//                self.cityLabel.isHidden = false
+//            })
+//        })
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600), execute: {
+//            UIView.transition(with: self.view, duration: 0.2, options: .transitionCrossDissolve, animations: {
+//                self.descriptionLabel.isHidden = false
+//            })
+//        })
+        
         
         // animate mid view
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800), execute: {
-            UIView.transition(with: self.view, duration: 0.4, options: .transitionCrossDissolve, animations: {
-                self.weatherIcon.isHidden = false
-            })
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
-            UIView.transition(with: self.view, duration: 0.4, options: .transitionCrossDissolve, animations: {
-                self.tempLabel.isHidden = false
-            })
-        })
+        
+//        UIView.animate(withDuration: 0.4, animations: {
+//            self.weatherIcon.layer.opacity = 1.0
+//        }) { (true) in
+//            UIView.animate(withDuration: 0.4, animations: {
+//                self.tempLabel.layer.opacity = 1.0
+//            })
+//        }
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800), execute: {
+//            UIView.transition(with: self.view, duration: 0.4, options: .transitionCrossDissolve, animations: {
+//                self.weatherIcon.isHidden = false
+//            })
+//        })
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000), execute: {
+//            UIView.transition(with: self.view, duration: 0.4, options: .transitionCrossDissolve, animations: {
+//                self.tempLabel.isHidden = false
+//            })
+//        })
         
         // animate bottom view
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200), execute: {
-            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                self.bottomFirstStack.layer.opacity = 1.0
-            })
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1400), execute: {
-            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                self.bottomSecondStack.layer.opacity = 1.0
-            })
-        })
+        
+//        UIView.animate(withDuration: 0.5, animations: {
+//            self.bottomFirstStack.layer.opacity = 1.0
+//        }) { (true) in
+//            UIView.animate(withDuration: 0.5, animations: {
+//                self.bottomSecondStack.layer.opacity = 1.0
+//            })
+//        }
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200), execute: {
+//            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+//                self.bottomFirstStack.layer.opacity = 1.0
+//            })
+//        })
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1400), execute: {
+//            UIView.transition(with: self.view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+//                self.bottomSecondStack.layer.opacity = 1.0
+//            })
+//        })
     }
     
     func dayTimeBackground() {
@@ -152,10 +198,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         searchBar.barTintColor = UIColor(red: 128/255.0, green: 160/255.0, blue: 186/255.0, alpha: 1.0)
         
         // hide all elemetns
-        cityLabel.isHidden = true
-        descriptionLabel.isHidden = true
-        weatherIcon.isHidden = true
-        tempLabel.isHidden = true
+        cityLabel.layer.opacity = 0.0
+        descriptionLabel.layer.opacity = 0.0
+        weatherIcon.layer.opacity = 0.0
+        tempLabel.layer.opacity = 0.0
+//        cityLabel.isHidden = true
+//        descriptionLabel.isHidden = true
+//        weatherIcon.isHidden = true
+//        tempLabel.isHidden = true
         bottomFirstStack.layer.opacity = 0.0
         bottomSecondStack.layer.opacity = 0.0
         
@@ -219,10 +269,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         searchBar.barTintColor = UIColor(red: 146/255.0, green: 211/255.0, blue: 240/255.0, alpha: 1.0)
 
         // hide all elemetns
-        cityLabel.isHidden = true
-        descriptionLabel.isHidden = true
-        weatherIcon.isHidden = true
-        tempLabel.isHidden = true
+        cityLabel.layer.opacity = 0.0
+        descriptionLabel.layer.opacity = 0.0
+        weatherIcon.layer.opacity = 0.0
+        tempLabel.layer.opacity = 0.0
+//        cityLabel.isHidden = true
+//        descriptionLabel.isHidden = true
+//        weatherIcon.isHidden = true
+//        tempLabel.isHidden = true
         bottomFirstStack.layer.opacity = 0.0
         bottomSecondStack.layer.opacity = 0.0
         
@@ -270,9 +324,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func getWeatherData(for url: URL) {
-        
         session.dataTask(with: url) { (data, response, error) in
-            // check if error is nil
             if error != nil {
                 print("Error: \(String(describing: error))")
                 return
@@ -280,7 +332,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             // check if the HTTP status code is OK
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
-                    // TODO: - give user feedback
                     print("HTTP code error)")
                     return
             }
@@ -290,10 +341,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 return
             }
             // parse JSON
-            guard let data = data else { return }
-            self.parseJsonData(with: data)
-            
-            }.resume()
+            if let dataToParse = data {
+                self.parseJsonData(with: dataToParse)
+            }
+        }.resume()
     }
     
     
@@ -322,10 +373,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func updateUI(weather: WeatherData) {
         
-        cityLabel.isHidden = true
-        descriptionLabel.isHidden = true
-        weatherIcon.isHidden = true
-        tempLabel.isHidden = true
+        cityLabel.layer.opacity = 0.0
+        descriptionLabel.layer.opacity = 0.0
+        weatherIcon.layer.opacity = 0.0
+        tempLabel.layer.opacity = 0.0
         bottomFirstStack.layer.opacity = 0.0
         bottomSecondStack.layer.opacity = 0.0
         
@@ -333,14 +384,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let weatherDes = weather.weather[0]
         let coord = weather.coord
         weatherCond = weatherDes.id
+//        weatherCond = 800
         tempLabel.text = "\(Int(main.temp))°"
         cityLabel.text = weather.name.uppercased()
+//        cityLabel.text = "TORONTO"
         weatherIcon.image = UIImage(named: updateWeatherIcon(condition: weatherDes.id))
         descriptionLabel.text = String(weatherDes.weatherDescription)
+//        descriptionLabel.text = "Sunny"
         maxTempLabel.text = "\(Int(floor(main.temp_max)))°C"
         minTempLabel.text = "\(Int(floor(main.temp_min)))°C"
         humidityLabel.text = "\(Int(floor(main.humidity)))%"
         updateLocationBasedUI(weather: weather, coordinates: coord)
+        
     }
     
     func updateLocationBasedUI(weather: WeatherData, coordinates: Coordinates) {
